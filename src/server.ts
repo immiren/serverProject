@@ -1,5 +1,5 @@
 import express from 'express';
-import {testRouter} from './routes/testRoutes';
+import router from './routes/routes';
 
 const app = express();
 const port = 9000;
@@ -12,5 +12,5 @@ app.listen(port, () => {
     console.log(`listening to port ${port}`);
 });
 
-app.use('/test', testRouter
+app.use('/', router
 )
