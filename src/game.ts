@@ -1,8 +1,9 @@
-import { ResourceSchema } from "./items/itemSchemas";
 import { SelectPlayer } from "./player/player";
 
-export function StartGame(playerName:string){
-    const activePlayer = SelectPlayer(playerName);
+export async function StartGame(playerName:string){
+    console.log('\n-----------------PLAYER SETUP START------------------\n');
+    const activePlayer = await SelectPlayer(playerName);
+    console.log('\n------------------PLAYER SETUP END-------------------\n');
     if (activePlayer?.playerName == playerName) {
         console.log('Active player: ', activePlayer.playerName);
     }

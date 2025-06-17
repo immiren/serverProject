@@ -8,14 +8,14 @@ router.get('/', (req, res) => {
     res.send('Test done!');
 })
 
-router.get('/:playerName', (req, res) => {
+router.get('/:playerName', async (req, res) => {
     const playerName = req.params.playerName;
 
     console.log('-----------------------------------------------------');
     console.log(`Logging in as ${playerName}.`);
-    StartGame(playerName);
+    await StartGame(playerName);
     console.log('-----------------------------------------------------');
-    res.send("gamign");
+    res.send('gamign');
 })
 
 export default router;

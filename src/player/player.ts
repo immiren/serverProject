@@ -4,7 +4,7 @@ import { PlayerSchema, PlayerType } from "./playerSchemas";
 import { error } from 'console';
 import { ZodError } from 'zod';
 
-export function SelectPlayer(playerName:string): PlayerType | null {
+export async function SelectPlayer(playerName:string): Promise<PlayerType | null> {
     const playerDir = path.join(
         'players',
         playerName
@@ -17,96 +17,75 @@ export function SelectPlayer(playerName:string): PlayerType | null {
     );
 
     // Check for directory
-    if (fs.existsSync(fullDir)){
+    try {
+        fs.accessSync(fullDir);
         console.log(`Player ${playerName}'s directory exists at ${playerDir}.`);
-    } else {
+    } catch (error) {
         console.log(`No directory found for ${playerName} at ${playerDir}.`);
-        fs.mkdirSync(fullDir);
-        if(fs.existsSync(fullDir)){
+        try{
+            fs.mkdirSync(fullDir, {recursive: true});
             console.log(`Player ${playerName}'s directory created at ${playerDir}.`);
-        } else {
-            console.log(`Failed to create directory for ${playerName} at ${playerDir}.`);
+        } catch (error) {
+            console.log(`   Failed to create directory for ${playerName} at ${playerDir}.`);
         }
     }
-    LoadPlayerData(fullDir,playerName);
-    return null;
+
+    const newPlayer = await LoadPlayerData(fullDir,playerName);
+    return newPlayer;
 }
 
 async function LoadPlayerData(playerDir: string, playerName:string) : Promise<PlayerType | null> {
-    console.log(`Looking for player data for player ${playerName}`);
     const playerFile = path.join(playerDir, 'playerData.json');
-
+    console.log(`Looking for player data for player ${playerName}.`);
+    
     // Check for file
-    if(fs.existsSync(playerFile)){
+    try {
+        fs.accessSync(playerFile);
         try {
-            // File found
+            const filecontent = fs.readFileSync(playerFile, 'utf-8');
             console.log(`Player data found for ${playerName}.`);
-
-            // Parsing data
-            const playerFileData = fs.readFileSync(playerFile);
-            const playerData = await PlayerSchema.parseAsync(playerFileData);
-
-            // Check if data was valid
-            if (playerData) {
-                console.log(`Existing player data validated for ${playerName}`);
-                return playerData;
-            } else {
-                console.log(`Issues validating existing data for ${playerName}`);
-                throw error;
-            }
+            const playerData = PlayerSchema.parse(JSON.parse(filecontent));
+            console.log(`Existing player data validated for ${playerName}`);
+            return playerData;
         } catch (error) {
-            if(error instanceof ZodError){
-                console.log('Zod error with existing player data: ' + error);
-
+            if (error instanceof ZodError) {
+                console.warn(`   Zod validation error with existing player data for ${playerName}:`, error.errors);
+            } else if (error instanceof SyntaxError) {
+                console.warn(`   SyntaxError parsing existing player data for ${playerName}:`, error.message);
             } else {
-                console.log('Error with existing player data: ' + error);                
+                console.warn(`   Unknown error with existing player data for ${playerName}:`, error);
             }
-            return null;
+            console.log(`Attempting to create new player data for ${playerName} due to issues with existing file.`);
+            const newPlayerData = await CreatePlayer(playerName, playerFile);
+            console.log('New player data: ' + newPlayerData);       
+            return newPlayerData;
         }
-    } else {
-        // File not found
-        console.log(`No player data found for ${playerName}`);
-        console.log(`Creating player data for ${playerName}`);
+    } catch (error) {
+        // failure at fs.accessSync
+        console.log(`No player data file found for ${playerName}. Creating new one.`);
+        const newPlayerData = await CreatePlayer(playerName, playerFile);
+        return newPlayerData;
+    }
+} 
 
-        // Add new player Data
-        const newPlayerData : PlayerType = {
-            playerName: playerName,
-        };
-        fs.writeFile(playerFile, JSON.stringify(newPlayerData), (err) => {
-            if(err instanceof error || err instanceof ZodError){
-                console.log(err);
-                throw err;
-            }
-        });
-        console.log(playerFile);
-        // Check that file creating was successful
-        if (fs.existsSync(playerFile)){ // returns false when it shouldnt
-            try {
-                // File successfully created
-                console.log(`New player data created for ${playerName}.`);
-                const playerFileData = fs.readFileSync(playerFile);
-                const playerData = PlayerSchema.parseAsync(playerFileData);
+async function CreatePlayer(playerName: string, playerFile: string) : Promise<PlayerType | null> {
+    // Add new player
+    const newPlayerData : PlayerType = {
+        playerName: playerName,
+    };
 
-                // Check if data was valid
-                if (playerData) {
-                    console.log(`New player data validated for ${playerName}`);
-                    return playerData;
-                } else {
-                    console.log(`Issues validating new data for ${playerName}`);
-                    throw error;
-                }
-            } catch (error) {
-                if(error instanceof ZodError){
-                    console.log('Zod error with new player data: ' + error);
-
-                } else {
-                    console.log('Error with new player data: ' + error);                
-                }
-                return null;
-            }
-        } else {
-            console.log(`Player file creation for ${playerName} was unsuccessful.`);
-        }
+    try {
+        const playerData = PlayerSchema.parse(newPlayerData);
+    } catch (validationError) {
+        return null;
+    }
+    const jsonData = JSON.stringify(newPlayerData, null, 2);
+    try {
+        await fs.writeFileSync(playerFile, jsonData);
+        console.log(`New player data created for ${playerName} and saved to ${playerFile}.`);
+        return newPlayerData;
+    } catch (error) {
+        console.error(`   Failed to write player data for ${playerName} to ${playerFile}:`, error);
         return null;
     }
 }
