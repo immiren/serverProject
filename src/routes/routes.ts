@@ -1,24 +1,36 @@
-import express from 'express';
-import {StartGame} from '../game';
+import express from "express";
+import { StartGame } from "../game";
+import path from "path";
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
-    console.log('Test successful! Good job :)');
-    res.send('Test done!');
-})
+// Open game
+router.get("/", (req, res) => {
+  const options = {
+    root: path.join(__dirname),
+  };
 
-router.get('/:playerName', async (req, res) => {
-    const playerName = req.params.playerName;
+  res.sendFile(
+    "C:/Users/Käyttäjä/Documents/GitHub/serverProject/public/index.html",
+  );
+});
 
-    console.log('-----------------------------------------------------');
-    console.log(`Logging in as ${playerName}.`);
-    await StartGame(playerName);
-    console.log('-----------------------------------------------------');
-    res.send('gamign');
-})
+// Login
+router.get("/login/:playerName", async (req, res) => {
+  const playerName = req.params.playerName;
+
+  console.log("-----------------------------------------------------");
+  console.log(`Logging in as ${playerName}.`);
+  await StartGame(playerName);
+  console.log("-----------------------------------------------------");
+  res.send("Logged in as " + playerName);
+});
+
+router.get("/:playerName", (req, res) => {
+  const playerName = req.params.playerName;
+});
 
 export default router;
 
 // test curls
-// curl http://localhost:9000/immiihh
+// curl http://localhost:9000/game/immiihh
