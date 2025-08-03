@@ -1,0 +1,98 @@
+body {
+  background-color: #313131;
+}
+h1 {
+  color: white;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+h2 {
+  color: white;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+font-weight:normal;
+}
+
+h3 {
+  color: white;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+
+}
+
+p {
+  color: white;
+
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.action {
+    text-decoration: underline;
+}
+
+label {
+    color:white;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.header {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 20px;;
+}
+
+.mainContent {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    display: grid;
+    grid-template-columns: 25% 50% 25%;
+}
+
+.sideBar {
+    margin: 5px;
+    padding: 20px;
+    border: 1px;
+    border-style: solid;
+    border-color: white;
+    border-radius: 10px;
+}
+
+.artSection {
+    margin: 5px;
+    padding: 20px;
+    padding-left: 20px;
+    border: 1px;
+    border-style: solid;
+    border-color: white;
+    border-radius: 10px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+.textSection {
+    margin: 5px;
+    padding: 20px;
+    padding-left: 20px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+.textSection p {
+    padding-left: 20px;
+}
+
+.buttons {
+    margin-left: 5px;
+    padding: 20px;
+    padding-top: 5px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+}
+
+.mainBar {
+    margin: 5px;
+    padding: 20px;
+    border: 1px;
+    border-style: solid;
+    border-color: white;
+    border-radius: 10px;
+}

@@ -9,8 +9,10 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
+app.use("/game", express.static("public"));
+
 app.listen(port, () => {
   console.log(`listening to port ${port}`);
 });
 
-app.use("/game/", router);
+app.use("/", router);

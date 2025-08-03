@@ -1,7 +1,6 @@
 import path from 'path';
 import fs from 'fs';
 import { PlayerSchema, PlayerType } from "./playerSchemas";
-import { error } from 'console';
 import { ZodError } from 'zod';
 
 export async function SelectPlayer(playerName:string): Promise<PlayerType | null> {
@@ -49,7 +48,7 @@ async function LoadPlayerData(playerDir: string, playerName:string) : Promise<Pl
             return playerData;
         } catch (error) {
             if (error instanceof ZodError) {
-                console.warn(`   Zod validation error with existing player data for ${playerName}:`, error.errors);
+                console.warn(`   Zod validation error with existing player data for ${playerName}:`, error.message);
             } else if (error instanceof SyntaxError) {
                 console.warn(`   SyntaxError parsing existing player data for ${playerName}:`, error.message);
             } else {
