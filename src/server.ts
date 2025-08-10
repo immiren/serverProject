@@ -1,13 +1,11 @@
 import express from "express";
-import saveRouter from "./routes/routes";
+import saveRouter from "./routes/saveRoutes";
+import gameRouter from "./routes/gameRoutes";
 
 const app = express();
 const port = 9000;
 
-app.get("/", (req, res) => {
-  console.log("connected");
-  res.send("Hello World!");
-});
+app.use("/", gameRouter);
 
 app.use("/game", express.static("public"));
 
@@ -15,4 +13,4 @@ app.listen(port, () => {
   console.log(`listening to port ${port}`);
 });
 
-app.use("/", saveRouter);
+app.use("/saves", saveRouter);

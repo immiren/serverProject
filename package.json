@@ -6,7 +6,8 @@
   "type": "commonjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc --build",
+    "build": "npx tsc --build",
+    "build:webpage": "npx tsc --build tsconfig.webpage.json",
     "start": "node ./dist/server.js",
     "dev": "nodemon ./src/server.ts"
   },
@@ -21,12 +22,12 @@
     "@typescript-eslint/eslint-plugin": "^8.34.1",
     "@typescript-eslint/parser": "^8.34.1",
     "eslint": "^9.28.0",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-prettier": "^5.5.0",
     "globals": "^16.2.0",
     "nodemon": "^3.1.10",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3",
-    "eslint-config-prettier": "^10.1.5",
-    "eslint-plugin-prettier": "^5.5.0",
     "typescript-eslint": "^8.33.1"
   },
   "dependencies": {

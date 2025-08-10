@@ -3,21 +3,22 @@
     <head>
         <title>Server Project</title>
         <link rel="stylesheet" href="style.css">
+        <script src="dist/page.js"></script>
     </head>
-    <body>
+    <body onload="setup()">
         <div class="header">
             <h2>Camp > Greenhouse</h2>
         </div>
         <div class="mainContent">
             <div class="sideBar">
-                <h3>Greenhouse stats</h3>
-                <p>Level:   value</p>
-                <p>Resource:    value</p>
-                <p>Upgrade cost:    value</p>
+                <h3 id="building-stats">Greenhouse stats</h3>
+                <p id="building-level">Level:</p>
+                <p id="resource-amount">Resource:    value</p>
+                <p id="upgrade-cost">Upgrade cost:    value</p>
                 <p>Capacity:</p>
-                <p>[XXXXXXXXXXXXXX------] 14/20</p>
+                <p id="building-capacity">[XXXXXXXXXXXXXX------] 14/20</p>
                 <br>
-                <h3>Greenhouse actions</h3>
+                <h3 id="building-actions">Greenhouse actions</h3>
                 <p class="action">Increase capacity</p>
                 <p class="action">View Storage</p>
                 <p class="action">Pack rations</p>
@@ -69,4 +70,4 @@
             </div>
         </div>
     </body>
-</html>
+    </html>
