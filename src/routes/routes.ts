@@ -1,22 +1,10 @@
 import express from "express";
 import { StartGame } from "../game";
-import path from "path";
 
-const router = express.Router();
-
-// Open game
-router.get("/", (req, res) => {
-  const options = {
-    root: path.join(__dirname),
-  };
-
-  res.sendFile(
-    "C:/Users/Käyttäjä/Documents/GitHub/serverProject/public/index.html",
-  );
-});
+const saveRouter = express.Router();
 
 // Login
-router.get("/login/:playerName", async (req, res) => {
+saveRouter.get("/login/:playerName", async (req, res) => {
   const playerName = req.params.playerName;
 
   console.log("-----------------------------------------------------");
@@ -26,11 +14,11 @@ router.get("/login/:playerName", async (req, res) => {
   res.send("Logged in as " + playerName);
 });
 
-router.get("/:playerName", (req, res) => {
+saveRouter.get("/:playerName", (req, res) => {
   const playerName = req.params.playerName;
 });
 
-export default router;
+export default saveRouter;
 
 // test curls
 // curl http://localhost:9000/game/immiihh
