@@ -9,48 +9,38 @@ export function displayResources(resource: {
   };
 }) {
   const buildingStatsObject =
-    document.querySelector<HTMLHeadingElement>("building-stats");
+    document.querySelector<HTMLHeadingElement>("#building-stats");
   const buildingLevelObject =
-    document.querySelector<HTMLParagraphElement>("building-level");
+    document.querySelector<HTMLParagraphElement>("#building-level");
   const resourceAmountObject =
-    document.querySelector<HTMLParagraphElement>("resource-amount");
+    document.querySelector<HTMLParagraphElement>("#resource-amount");
   const upgradeCostObject =
-    document.querySelector<HTMLParagraphElement>("upgrade-cost");
+    document.querySelector<HTMLParagraphElement>("#upgrade-cost");
   const buildingCapacityObject =
-    document.querySelector<HTMLParagraphElement>("building-capacity");
+    document.querySelector<HTMLParagraphElement>("#building-capacity");
   const buildingActionsObject =
-    document.querySelector<HTMLHeadingElement>("building-actions");
+    document.querySelector<HTMLHeadingElement>("#building-actions");
   if (
     !buildingStatsObject ||
     !buildingLevelObject ||
     !resourceAmountObject ||
     !upgradeCostObject ||
-    !resourceAmountObject ||
     !buildingCapacityObject ||
     !buildingActionsObject
   ) {
     console.log("issue loading elements");
     return;
   }
-  //calculate building capacity %
+  //calculate building capacity
   const capacityPercent = resource.amount / resource.building.limit;
-  console.log("%: " + capacityPercent);
-  const capacityBar = Math.round(20 * capacityPercent);
-  let capacityXs = "";
-  let i = 0;
-  while (i < capacityBar) {
-    capacityXs.concat("X");
-    i++;
-  }
-  i = 0;
-  while (i > 20 - capacityBar) {
-    capacityXs.concat("-");
-    i++;
-  }
-  buildingStatsObject.innerHTML = `${resource.building.buildingName} stats`;
-  buildingLevelObject.innerHTML = `Level: ${resource.building.level}`;
-  resourceAmountObject.innerHTML = `${resource.resourceName}: ${resource.amount}`;
-  upgradeCostObject.innerHTML = `Upgrade cost missing`;
-  buildingCapacityObject.innerHTML = `[${capacityXs}] ${resource.amount}/${resource.building.limit}`;
-  buildingActionsObject.innerHTML = `${resource.building.buildingName} actions`;
+  const filledSlots = Math.min(20, Math.round(capacityPercent * 20));
+  const emptySlots = 20 - filledSlots;
+  const capacityBar = "X".repeat(filledSlots) + "-".repeat(emptySlots);
+
+  buildingStatsObject.textContent = `${resource.building.buildingName} stats`;
+  buildingLevelObject.textContent = `Level: ${resource.building.level}`;
+  resourceAmountObject.textContent = `${resource.resourceName}: ${resource.amount}`;
+  upgradeCostObject.textContent = `Upgrade cost missing`;
+  buildingCapacityObject.textContent = `[${capacityBar}] ${resource.amount}/${resource.building.limit}`;
+  buildingActionsObject.textContent = `${resource.building.buildingName} actions`;
 }

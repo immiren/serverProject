@@ -10,7 +10,7 @@ gameRouter.get("/setup", async (req, res) => {
 
   const woodResource: ResourceType = {
     resourceName: "Wood",
-    amount: 0,
+    amount: 35,
     building: {
       buildingName: "Shed",
       level: 0,

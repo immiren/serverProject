@@ -6,17 +6,10 @@ window.onload = async (event) => {
 
 async function setup() {
   console.log("setup");
-  const response = await (await fetch("/setup")).json;
-  let wood;
-  console.log("res: " + response);
-
   try {
-    wood = JSON.parse(response.toString());
-    console.log("res: " + response);
+    const wood = await (await fetch("/setup")).json();
+    displayResources(wood);
   } catch (error) {
-    console.log("log" + error);
-    console.log("broke");
-    return;
+    console.error("Failed to fetch or display resources:", error);
   }
-  displayResources(wood);
 }
