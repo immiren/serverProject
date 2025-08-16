@@ -13,7 +13,7 @@ gameRouter.get("/setup", async (req, res) => {
     amount: 35,
     building: {
       buildingName: "Shed",
-      level: 0,
+      level: 1,
       genRate: 0.5,
       limit: 100,
     },

@@ -1,13 +1,6 @@
-export function displayResources(resource: {
-  resourceName: string;
-  amount: number;
-  building: {
-    buildingName: string;
-    level: number;
-    genRate: number;
-    limit: number;
-  };
-}) {
+import { ResourceType } from "./types.js";
+
+export function displayResources(resources: ResourceType[]) {
   const buildingStatsObject =
     document.querySelector<HTMLHeadingElement>("#building-stats");
   const buildingLevelObject =
@@ -31,16 +24,22 @@ export function displayResources(resource: {
     console.log("issue loading elements");
     return;
   }
-  //calculate building capacity
-  const capacityPercent = resource.amount / resource.building.limit;
-  const filledSlots = Math.min(20, Math.round(capacityPercent * 20));
-  const emptySlots = 20 - filledSlots;
-  const capacityBar = "X".repeat(filledSlots) + "-".repeat(emptySlots);
+  const currentBuilding = 'Shed'
+  resources.forEach((resource) => {
 
-  buildingStatsObject.textContent = `${resource.building.buildingName} stats`;
-  buildingLevelObject.textContent = `Level: ${resource.building.level}`;
-  resourceAmountObject.textContent = `${resource.resourceName}: ${resource.amount}`;
-  upgradeCostObject.textContent = `Upgrade cost missing`;
-  buildingCapacityObject.textContent = `[${capacityBar}] ${resource.amount}/${resource.building.limit}`;
-  buildingActionsObject.textContent = `${resource.building.buildingName} actions`;
+    if (resource.building.buildingName === currentBuilding) {
+      //calculate building capacity
+      const capacityPercent = resource.amount / resource.building.limit;
+      const filledSlots = Math.min(20, Math.round(capacityPercent * 20));
+      const emptySlots = 20 - filledSlots;
+      const capacityBar = "X".repeat(filledSlots) + "-".repeat(emptySlots);
+
+      buildingStatsObject.textContent = `${resource.building.buildingName} stats`;
+      buildingLevelObject.textContent = `Level: ${resource.building.level}`;
+      resourceAmountObject.textContent = `${resource.resourceName}: ${resource.amount}`;
+      upgradeCostObject.textContent = `Upgrade cost missing`;
+      buildingCapacityObject.textContent = `[${capacityBar}] ${resource.amount}/${resource.building.limit}`;
+      buildingActionsObject.textContent = `${resource.building.buildingName} actions`;
+    }
+  })
 }
