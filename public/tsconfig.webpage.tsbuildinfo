@@ -1,1 +1,1 @@
-{"root":["./displayresources.ts","./page.ts","./types.ts","./resources/listresources.ts","./resources/updateresources.ts"],"version":"5.8.3"}
+{"root":["./displayresources.ts","./page.ts","./types.ts","./resources/listresources.ts","./resources/setresources.ts","./resources/updateresources.ts"],"version":"5.8.3"}

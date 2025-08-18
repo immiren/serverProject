@@ -5,28 +5,32 @@ export function displayResources(resources: ResourceType[]) {
     document.querySelector<HTMLHeadingElement>("#building-stats");
   const buildingLevelObject =
     document.querySelector<HTMLParagraphElement>("#building-level");
-  const resourceAmountObject =
-    document.querySelector<HTMLParagraphElement>("#resource-amount");
+  const buildingResourceAmountObject =
+    document.querySelector<HTMLParagraphElement>("#building-resource-amount");
   const upgradeCostObject =
     document.querySelector<HTMLParagraphElement>("#upgrade-cost");
   const buildingCapacityObject =
     document.querySelector<HTMLParagraphElement>("#building-capacity");
   const buildingActionsObject =
     document.querySelector<HTMLHeadingElement>("#building-actions");
+  const resourceAmountObjects = document.querySelectorAll<HTMLParagraphElement>(".resource-amount");
   if (
     !buildingStatsObject ||
     !buildingLevelObject ||
-    !resourceAmountObject ||
+    !buildingResourceAmountObject ||
     !upgradeCostObject ||
     !buildingCapacityObject ||
-    !buildingActionsObject
+    !buildingActionsObject ||
+    !resourceAmountObjects
   ) {
     console.log("issue loading elements");
     return;
   }
   const currentBuilding = 'Shed'
   resources.forEach((resource) => {
-
+    resourceAmountObjects[resources.indexOf(resource)].innerHTML = `
+      ${resource.resourceName}: ${resource.amount}/${resource.building.limit}
+    `;
     if (resource.building.buildingName === currentBuilding) {
       //calculate building capacity
       const capacityPercent = resource.amount / resource.building.limit;
@@ -36,7 +40,7 @@ export function displayResources(resources: ResourceType[]) {
 
       buildingStatsObject.textContent = `${resource.building.buildingName} stats`;
       buildingLevelObject.textContent = `Level: ${resource.building.level}`;
-      resourceAmountObject.textContent = `${resource.resourceName}: ${resource.amount}`;
+      buildingResourceAmountObject.textContent = `${resource.resourceName}: ${resource.amount}`;
       upgradeCostObject.textContent = `Upgrade cost missing`;
       buildingCapacityObject.textContent = `[${capacityBar}] ${resource.amount}/${resource.building.limit}`;
       buildingActionsObject.textContent = `${resource.building.buildingName} actions`;

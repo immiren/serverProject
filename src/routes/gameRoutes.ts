@@ -1,26 +1,17 @@
 import express from "express";
 import { ResourceType } from "../items/itemSchemas";
+import { createResources } from "../items/createResources";
 
 const gameRouter = express.Router();
 
-//Setup
+// Setup
 gameRouter.get("/setup", async (req, res) => {
   // Load save
   console.log("req received");
 
-  const woodResource: ResourceType = {
-    resourceName: "Wood",
-    amount: 35,
-    building: {
-      buildingName: "Shed",
-      level: 1,
-      genRate: 0.5,
-      limit: 100,
-    },
-  };
-  console.log("sending " + woodResource.resourceName);
-  console.log(woodResource);
-  res.json(woodResource);
+  const resources = createResources();
+  console.log('Sending resources.');
+  res.json(resources);
 });
 
 export default gameRouter;

@@ -3,7 +3,7 @@ import fs from 'fs';
 import { PlayerSchema, PlayerType } from "./playerSchemas";
 import { ZodError } from 'zod';
 
-export async function SelectPlayer(playerName:string): Promise<PlayerType | null> {
+export async function SelectPlayer(playerName: string): Promise<PlayerType | null> {
     const playerDir = path.join(
         'players',
         playerName
@@ -21,22 +21,22 @@ export async function SelectPlayer(playerName:string): Promise<PlayerType | null
         console.log(`Player ${playerName}'s directory exists at ${playerDir}.`);
     } catch (error) {
         console.log(`No directory found for ${playerName} at ${playerDir}.`);
-        try{
-            fs.mkdirSync(fullDir, {recursive: true});
+        try {
+            fs.mkdirSync(fullDir, { recursive: true });
             console.log(`Player ${playerName}'s directory created at ${playerDir}.`);
         } catch (error) {
             console.log(`   Failed to create directory for ${playerName} at ${playerDir}.`);
         }
     }
 
-    const newPlayer = await LoadPlayerData(fullDir,playerName);
+    const newPlayer = await LoadPlayerData(fullDir, playerName);
     return newPlayer;
 }
 
-async function LoadPlayerData(playerDir: string, playerName:string) : Promise<PlayerType | null> {
+async function LoadPlayerData(playerDir: string, playerName: string): Promise<PlayerType | null> {
     const playerFile = path.join(playerDir, 'playerData.json');
     console.log(`Looking for player data for player ${playerName}.`);
-    
+
     // Check for file
     try {
         fs.accessSync(playerFile);
@@ -56,7 +56,7 @@ async function LoadPlayerData(playerDir: string, playerName:string) : Promise<Pl
             }
             console.log(`Attempting to create new player data for ${playerName} due to issues with existing file.`);
             const newPlayerData = await CreatePlayer(playerName, playerFile);
-            console.log('New player data: ' + newPlayerData);       
+            console.log('New player data: ' + newPlayerData);
             return newPlayerData;
         }
     } catch (error) {
@@ -65,11 +65,11 @@ async function LoadPlayerData(playerDir: string, playerName:string) : Promise<Pl
         const newPlayerData = await CreatePlayer(playerName, playerFile);
         return newPlayerData;
     }
-} 
+}
 
-async function CreatePlayer(playerName: string, playerFile: string) : Promise<PlayerType | null> {
+async function CreatePlayer(playerName: string, playerFile: string): Promise<PlayerType | null> {
     // Add new player
-    const newPlayerData : PlayerType = {
+    const newPlayerData: PlayerType = {
         playerName: playerName,
     };
 

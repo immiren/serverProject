@@ -1,5 +1,7 @@
 import { displayResources } from "./displayResources.js";
+import { setResources } from "./resources/setResources.js";
 import { updateResources } from "./resources/updateResources.js";
+import { ResourceType } from "./types.js";
 
 window.onload = async (event) => {
   await setup();
@@ -8,9 +10,9 @@ window.onload = async (event) => {
 async function setup() {
   console.log("setup");
   try {
-    const woodResource = await (await fetch("/setup")).json();
-    displayResources([woodResource]);
-    window.localStorage.setItem(woodResource.resourceName, JSON.stringify(woodResource));
+    const resources: ResourceType[] = await (await fetch("/setup")).json();
+    setResources(resources);
+    displayResources(resources);
   } catch (error) {
     console.error("Failed to fetch or display resources:", error);
   }
