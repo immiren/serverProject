@@ -1,32 +1,22 @@
 import { ResourceType } from "./types.js";
+import { assertDefined } from "./utils/assertDefined.js";
 
 export function displayResources(resources: ResourceType[]) {
   const buildingStatsObject =
-    document.querySelector<HTMLHeadingElement>("#building-stats");
+    assertDefined(document.querySelector<HTMLHeadingElement>("#building-stats"));
   const buildingLevelObject =
-    document.querySelector<HTMLParagraphElement>("#building-level");
+    assertDefined(document.querySelector<HTMLParagraphElement>("#building-level"));
   const buildingResourceAmountObject =
-    document.querySelector<HTMLParagraphElement>("#building-resource-amount");
+    assertDefined(document.querySelector<HTMLParagraphElement>("#building-resource-amount"));
   const upgradeCostObject =
-    document.querySelector<HTMLParagraphElement>("#upgrade-cost");
+    assertDefined(document.querySelector<HTMLParagraphElement>("#upgrade-cost"));
   const buildingCapacityObject =
-    document.querySelector<HTMLParagraphElement>("#building-capacity");
+    assertDefined(document.querySelector<HTMLParagraphElement>("#building-capacity"));
   const buildingActionsObject =
-    document.querySelector<HTMLHeadingElement>("#building-actions");
-  const resourceAmountObjects = document.querySelectorAll<HTMLParagraphElement>(".resource-amount");
-  if (
-    !buildingStatsObject ||
-    !buildingLevelObject ||
-    !buildingResourceAmountObject ||
-    !upgradeCostObject ||
-    !buildingCapacityObject ||
-    !buildingActionsObject ||
-    !resourceAmountObjects
-  ) {
-    console.log("issue loading elements");
-    return;
-  }
-  const currentBuilding = 'Shed'
+    assertDefined(document.querySelector<HTMLHeadingElement>("#building-actions"));
+  const resourceAmountObjects = assertDefined(document.querySelectorAll<HTMLParagraphElement>(".resource-amount"));
+
+  const currentBuilding = 'none'
   resources.forEach((resource) => {
     resourceAmountObjects[resources.indexOf(resource)].innerHTML = `
       ${resource.resourceName}: ${resource.amount}/${resource.building.limit}
