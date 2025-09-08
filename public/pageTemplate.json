@@ -1,0 +1,14 @@
+{
+    "building-info-headers": "{Building} stats/Camp buildings",
+    "building-info": {
+        "building-level": "Level: {level}",
+        "building-resource-amount": "",
+        "upgrade-cost": "",
+        "building-capacity": ""
+    },
+    "building-actions": {
+        "action1": "Increase capacity",
+        "action2": "View storage",
+        "action3": "Pack Rations"
+    }
+}
