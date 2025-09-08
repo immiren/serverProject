@@ -1,0 +1,1 @@
+// TODO: send resource info to server

@@ -26,7 +26,7 @@ export function createResources(): ResourceType[] {
         resourceName: "Metal",
         amount: 0,
         building: {
-            buildingName: "Old garage",
+            buildingName: "Garage",
             level: 3,
             genRate: 0.2,
             limit: 70,

@@ -1,1 +1,1 @@
-{"root":["./camp.ts","./displayresources.ts","./page.ts","./types.ts","./resources/listresources.ts","./resources/setresources.ts","./resources/updateresources.ts","./utils/assertdefined.ts"],"version":"5.9.2"}
+{"root":["./page.ts","./types.ts","./localstorage/getitem.ts","./localstorage/setitem.ts","./pageactions/displayresources.ts","./updates/updateresources.ts","./updates/updatesavefile.ts","./utils/assertdefined.ts"],"version":"5.8.3"}
