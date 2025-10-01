@@ -30,3 +30,16 @@ The project will be implemented in stages. Whether or not to continue to the nex
     - Resource states connected to dialogue
     - Upgrades connected to dialogue
     - Camp activities
+
+# Dev's Notes:
+## localstorage entries:
+
+"currentLocation": name of current location
+
+
+"Resource names": resource names, listed
+
+"Resource buildings: stringified object containing resource 
+building names and their associated resources
+
+resource.resourceName: stringified object containing all of a given resource's information

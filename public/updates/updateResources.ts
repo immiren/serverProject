@@ -2,7 +2,7 @@ import { getResources } from "../localStorage/getItem.js";
 import { setResource } from "../localStorage/setItem.js";
 import { displayResources } from "../pageActions/displayResources.js";
 
-export function updateResources() {
+export function updateResourceAmounts() {
     const resources = getResources();
 
     resources.forEach(resource => {

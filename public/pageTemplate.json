@@ -2,13 +2,19 @@
     "building-info-headers": "{Building} stats/Camp buildings",
     "building-info": {
         "building-level": "Level: {level}",
-        "building-resource-amount": "",
-        "upgrade-cost": "",
-        "building-capacity": ""
+        "building-resource-amount": "Resource: {amount}",
+        "upgrade-cost": "Upgrade cost: {cost}",
+        "building-capacity-header": "Capacity:",
+        "building-capacity": "{capacity}"
     },
     "building-actions": {
-        "action1": "Increase capacity",
+        "action1": "Upgrade building",
         "action2": "View storage",
         "action3": "Pack Rations"
-    }
+    },
+    "camp-actions": [
+        "New building",
+        "Action 2",
+        "Action 3"
+    ]
 }

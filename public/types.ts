@@ -8,3 +8,7 @@ export type ResourceType = {
         limit: number;
     }
 }
+
+export type BuildingType = {
+
+}

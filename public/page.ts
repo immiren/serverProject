@@ -1,6 +1,6 @@
 import { setCurrentLocation, setResources } from "./localStorage/setItem.js";
 import { displayResources } from "./pageActions/displayResources.js";
-import { updateResources } from "./updates/updateResources.js";
+import { updateResourceAmounts } from "./updates/updateResources.js";
 import { ResourceType } from "./types.js";
 import { assertDefined } from "./utils/assertDefined.js";
 
@@ -11,18 +11,18 @@ window.onload = async (event) => {
 async function setup() {
   console.log("setup");
   try {
-    setCurrentLocation('camp');
     const resources: ResourceType[] = await (await fetch("/setup")).json();
     setResources(resources);
+    setCurrentLocation('camp');
     displayResources(resources);
   } catch (error) {
     console.error("Failed to fetch or display resources:", error);
   }
-  window.setInterval(updateResources, 2000);
+  window.setInterval(updateResourceAmounts, 2000);
 
   // Setup buttons
-  const currenLocationHeader = assertDefined(document.querySelector<HTMLHeadingElement>("#current-location-header"));
-  currenLocationHeader.addEventListener("click", () => {
+  const currentLocationHeader = assertDefined(document.querySelector<HTMLHeadingElement>("#current-location-header"));
+  currentLocationHeader.addEventListener("click", () => {
     setCurrentLocation('camp');
   });
 

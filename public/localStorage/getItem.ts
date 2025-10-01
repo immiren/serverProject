@@ -11,6 +11,17 @@ export function getResource(resourceName: string): ResourceType {
     }
 }
 
+export function getResourceByBuilding(buildingName: string): ResourceType {
+    console.log('getting resource from ' + buildingName);
+    const resourceBuildingsString = window.localStorage.getItem('Resource buildings');
+    if (!resourceBuildingsString) {
+        throw new Error('Resource buildings not found');
+    }
+    const resources: { [key: string]: string } = JSON.parse(resourceBuildingsString);
+    const resourceName = resources[buildingName];
+    return getResource(resourceName);
+}
+
 export function getResources(): ResourceType[] {
     const resourceNamesList = getResourceNames();
     const resources: ResourceType[] = [];
@@ -33,14 +44,19 @@ export function getResourceNames(): string[] {
     return resourceNamesString.split(',');
 }
 
-export function getLocations(): string[] {
+/**
+ * Fetches locations.
+ * @param includeCamp Determines whether 'camp' is returned as one of the options 
+ * @returns list of location name strings
+ */
+export function getLocations(includeCamp: boolean): string[] {
     const resourceNamesList = getResourceNames();
     const locations: string[] = [];
     resourceNamesList.forEach((resourceName) => {
         const resource = getResource(resourceName);
         locations.push(resource.building.buildingName);
     });
-    locations.push('camp');
+    if (includeCamp) { locations.push('camp'); }
     return locations;
 }
 
