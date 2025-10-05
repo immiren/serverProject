@@ -1,85 +1,124 @@
-import { getLocations, getResourceByBuilding } from "../localStorage/getItem.js";
+import {
+  getLocations,
+  getResourceByBuilding,
+} from "../localStorage/getItem.js";
 import { ResourceType } from "../types.js";
 import { assertDefined } from "../utils/assertDefined.js";
+
+const campActions = ["New building", "Action 2"];
+const buildingActions = [
+  "Upgrade building",
+  "View storage",
+  "{customAction}",
+  "{customAction2}",
+];
 
 /**
  * Changes location view
  * @param location Lowercase location name
  */
 export function changeToPage(location: string) {
-    const buildings: string[] = getLocations(false);
-    buildings.forEach(building => {
-        if (location == building) {
-            showBuilding(true, building);
-        } else {
-            showBuilding(false, building);
-        }
-    });
-    showCamp(location == "camp");
+  const buildings: string[] = getLocations(false);
+  buildings.forEach((building) => {
+    if (location == building) {
+      console.log("active building: " + location);
+      showBuilding(true, building);
+    } else {
+      showBuilding(false, building);
+    }
+  });
+  showCamp(location == "camp");
+  setActions(location == "camp");
 }
 
 function setLocationInfoHeader(locationInfo: string) {
-    const locationInfoElement = assertDefined(document.querySelector<HTMLHeadingElement>("#location-info"));
-    locationInfoElement.textContent = locationInfo;
+  const locationInfoElement = assertDefined(
+    document.querySelector<HTMLHeadingElement>("#location-info"),
+  );
+  locationInfoElement.textContent = locationInfo;
+}
+
+function setActions(isCamp: boolean) {
+  let actionElements =
+    document.querySelectorAll<HTMLParagraphElement>(".action");
+  let actions: string[];
+  if (isCamp) {
+    actions = campActions;
+  } else {
+    actions = buildingActions;
+  }
+
+  // More actions than elements
+  while (actions.length > actionElements.length) {
+    const newActionElement = document.createElement("p");
+    newActionElement.classList.add("action");
+    actionElements[0].insertAdjacentElement("afterend", newActionElement);
+    actionElements = document.querySelectorAll<HTMLParagraphElement>(".action");
+  }
+  // More elements than actions
+  while (actionElements.length > actions.length) {
+    actionElements[0].remove();
+    actionElements = document.querySelectorAll<HTMLParagraphElement>(".action");
+  }
+  for (let i = 0; i < actions.length; i++) {
+    actionElements[i].textContent = actions[i];
+  }
 }
 
 function showCamp(enable: boolean) {
-    const displayStyle = enable ? "block" : "none";
+  const displayStyle = enable ? "block" : "none";
+  const buildingDisplayStyle = enable ? "none" : "block";
 
-    if (enable) {
-        setLocationInfoHeader("Camp Buildings");
-    }
-
+  if (enable) {
+    setLocationInfoHeader("Camp Buildings");
     // Set current location header
-    const currentLocationHeader = assertDefined(document.querySelector<HTMLHeadingElement>("#current-location-header"));
-    currentLocationHeader.textContent = 'Camp';
+    const currentLocationHeader = assertDefined(
+      document.querySelector<HTMLHeadingElement>("#current-location-header"),
+    );
+    currentLocationHeader.textContent = "Camp";
+  }
 
-    // Enable camp information element
-    const campInfoElement = assertDefined(document.querySelector<HTMLDivElement>(".camp-info"));
-    campInfoElement.style.display = displayStyle;
+  // Enable/disable camp information element
+  const campInfoElement = assertDefined(
+    document.querySelector<HTMLDivElement>(".camp-info"),
+  );
+  campInfoElement.style.display = displayStyle;
 
+  // Enable camp actions
+  if (enable) {
+    const locationActionsElement = assertDefined(
+      document.querySelector<HTMLHeadingElement>(".location-actions"),
+    );
+    locationActionsElement.textContent = `Camp Actions`;
+  }
 
-    // Enable camp actions
-    const locationActionsElement = assertDefined(document.querySelector<HTMLDivElement>(".camp-actions"));
-    if (enable) locationActionsElement.textContent = `Camp Actions`
-    // TODO: add actions
-
+  // Enable/disable building information element
+  const builidingInfoElement = assertDefined(
+    document.querySelector<HTMLDivElement>(".building-info"),
+  );
+  builidingInfoElement.style.display = buildingDisplayStyle;
 }
 
 function showBuilding(enable: boolean, buildingName: string) {
-    console.log('showing ' + buildingName)
-    const resource: ResourceType = getResourceByBuilding(buildingName);
-    const displayStyle = enable ? "block" : "none";
+  const resource: ResourceType = getResourceByBuilding(buildingName);
 
+  if (enable) {
+    setLocationInfoHeader(resource.building.buildingName);
+    // Set current location header
+    const currentLocationHeader = assertDefined(
+      document.querySelector<HTMLHeadingElement>("#current-location-header"),
+    );
+    currentLocationHeader.textContent = `Camp > ${resource.building.buildingName}`;
+  }
 
-    if (enable) {
-        setLocationInfoHeader(resource.building.buildingName);
-        // Set current location header
-        const currentLocationHeader = assertDefined(document.querySelector<HTMLHeadingElement>("#current-location-header"));
-        currentLocationHeader.textContent = `Camp > ${resource.building.buildingName}}`;
-    }
-
-
-
-    // Enable camp information element
-    const builidingInfoElement = assertDefined(document.querySelector<HTMLDivElement>(".building-info"));
-    builidingInfoElement.style.display = displayStyle;
-
-
-    // Enable camp actions
-    const locationActionsElement = assertDefined(document.querySelector<HTMLDivElement>("#location-actions"));
-
-    locationActionsElement.style.display = displayStyle;
-
-    if (enable) {
-        locationActionsElement.textContent = `${resource.building.buildingName} Actions`
-        // TODO: show capacity etc
-        const locationLevelObject =
-            assertDefined(document.querySelector<HTMLParagraphElement>("#location-level"));
-        const upgradeCostObject =
-            assertDefined(document.querySelector<HTMLParagraphElement>("#upgrade-cost"));
-        locationLevelObject.textContent = `Level: ${resource.building.level}`;
-        upgradeCostObject.textContent = `Upgrade cost missing`;
-    }
-
+  if (enable) {
+    const locationLevelObject = assertDefined(
+      document.querySelector<HTMLParagraphElement>("#location-level"),
+    );
+    const upgradeCostObject = assertDefined(
+      document.querySelector<HTMLParagraphElement>("#upgrade-cost"),
+    );
+    locationLevelObject.textContent = `Level: ${resource.building.level}`;
+    upgradeCostObject.textContent = `Upgrade cost missing`;
+  }
 }
