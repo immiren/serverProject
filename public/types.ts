@@ -12,3 +12,7 @@ export type ResourceType = {
 export type BuildingType = {
 
 }
+
+export type SaveFileType = {
+    resources: ResourceType[];
+}

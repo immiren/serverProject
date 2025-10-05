@@ -3,6 +3,11 @@ import fs from 'fs';
 import { PlayerSchema, PlayerType } from "./playerSchemas";
 import { ZodError } from 'zod';
 
+/**
+ * Find or create directory for player, load or create and return player data  
+ * @param playerName 
+ * @returns 
+ */
 export async function SelectPlayer(playerName: string): Promise<PlayerType | null> {
     const playerDir = path.join(
         'players',
@@ -29,10 +34,16 @@ export async function SelectPlayer(playerName: string): Promise<PlayerType | nul
         }
     }
 
-    const newPlayer = await LoadPlayerData(fullDir, playerName);
-    return newPlayer;
+    const playerData = await LoadPlayerData(fullDir, playerName);
+    return playerData;
 }
 
+/**
+ * Loads or creates and returns player data
+ * @param playerDir 
+ * @param playerName 
+ * @returns 
+ */
 async function LoadPlayerData(playerDir: string, playerName: string): Promise<PlayerType | null> {
     const playerFile = path.join(playerDir, 'playerData.json');
     console.log(`Looking for player data for player ${playerName}.`);
@@ -67,6 +78,12 @@ async function LoadPlayerData(playerDir: string, playerName: string): Promise<Pl
     }
 }
 
+/**
+ * Creates player data file and returns its contents
+ * @param playerName 
+ * @param playerFile 
+ * @returns 
+ */
 async function CreatePlayer(playerName: string, playerFile: string): Promise<PlayerType | null> {
     // Add new player
     const newPlayerData: PlayerType = {

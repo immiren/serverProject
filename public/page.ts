@@ -3,6 +3,7 @@ import { displayResources } from "./pageActions/displayResources.js";
 import { updateResourceAmounts } from "./updates/updateResources.js";
 import { ResourceType } from "./types.js";
 import { assertDefined } from "./utils/assertDefined.js";
+import { readSaveFile } from "./saveFiles/readSaveFile.js";
 
 window.onload = async (event) => {
   await setup();
@@ -11,7 +12,8 @@ window.onload = async (event) => {
 async function setup() {
   console.log("setup");
   try {
-    const resources: ResourceType[] = await (await fetch("/setup")).json();
+    const saveFile = await (await fetch("/saves/load/testUser/save1")).json();
+    const resources = readSaveFile(JSON.stringify(saveFile));
     setResources(resources);
     setCurrentLocation('camp');
     displayResources(resources);

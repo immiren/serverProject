@@ -1,5 +1,9 @@
-import { SelectPlayer } from "./player/player";
+import { SelectPlayer } from "./player/playerSelection";
 
+/**
+ * Selects active player and logs it to console.
+ * @param playerName 
+ */
 export async function StartGame(playerName: string) {
   console.log("\n-----------------PLAYER SETUP START------------------\n");
   const activePlayer = await SelectPlayer(playerName);
