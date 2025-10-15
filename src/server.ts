@@ -5,6 +5,9 @@ import gameRouter from "./routes/gameRoutes";
 const app = express();
 const port = 9000;
 
+app.use(express.json());
+
+
 app.use("/", gameRouter);
 
 app.use("/saves", saveRouter);

@@ -2,7 +2,8 @@ import { setCurrentLocation, setResources } from "./localStorage/setItem.js";
 import { displayResources } from "./pageActions/displayResources.js";
 import { updateResourceAmounts } from "./updates/updateResources.js";
 import { assertDefined } from "./utils/assertDefined.js";
-import { readSaveFile } from "./updates/readSaveFile.js";
+import { parseSaveFile } from "./updates/readSaveFile.js";
+import { sendSaveDataToServer } from "./updates/updateSavefile.js";
 
 window.onload = async (event) => {
   await setup();
@@ -12,7 +13,7 @@ async function setup() {
   console.log("setup");
   try {
     const saveFile = await (await fetch("/saves/load/testUser/save1")).json();
-    const resources = readSaveFile(JSON.stringify(saveFile));
+    const resources = parseSaveFile(JSON.stringify(saveFile));
     setResources(resources);
     setCurrentLocation('camp');
     displayResources(resources);
@@ -20,6 +21,8 @@ async function setup() {
     console.error("Failed to fetch or display resources:", error);
   }
   window.setInterval(updateResourceAmounts, 2000);
+  window.setInterval(sendSaveDataToServer, 60000);
+  // TODO: tweak save interval
 
   // Setup buttons
   const currentLocationHeader = assertDefined(document.querySelector<HTMLHeadingElement>("#current-location-header"));
@@ -40,4 +43,10 @@ async function setup() {
   campGarageLink.addEventListener("click", () => {
     setCurrentLocation('Garage');
   });
+
+  const saveButton = assertDefined(document.querySelector<HTMLParagraphElement>("#save"));
+  saveButton.addEventListener("click", () => {
+    console.log("sending data to server");
+    sendSaveDataToServer();
+  })
 }

@@ -7,3 +7,5 @@ players
 public/dist
 
 .vscode
+
+*/tsconfig.webpage.tsbuildinfo
