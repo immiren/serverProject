@@ -1,5 +1,4 @@
 import express from "express";
-import { ResourceType } from "../items/itemSchemas";
 import { createResources } from "../items/createResources";
 
 const gameRouter = express.Router();

@@ -1,1 +1,0 @@
-{"root":["./page.ts","./types.ts","./buildingactions/generalbuildingactions.ts","./localstorage/getitem.ts","./localstorage/setitem.ts","./pageactions/changepage.ts","./pageactions/displayresources.ts","./pageactions/showplayerinformation.ts","./savefiles/readsavefile.ts","./updates/updateresources.ts","./updates/updatesavefile.ts","./utils/assertdefined.ts"],"version":"5.9.2"}

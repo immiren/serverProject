@@ -1,9 +1,8 @@
 import { setCurrentLocation, setResources } from "./localStorage/setItem.js";
 import { displayResources } from "./pageActions/displayResources.js";
 import { updateResourceAmounts } from "./updates/updateResources.js";
-import { ResourceType } from "./types.js";
 import { assertDefined } from "./utils/assertDefined.js";
-import { readSaveFile } from "./saveFiles/readSaveFile.js";
+import { readSaveFile } from "./updates/readSaveFile.js";
 
 window.onload = async (event) => {
   await setup();
