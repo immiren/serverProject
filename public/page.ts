@@ -46,7 +46,6 @@ async function setup() {
 
   const saveButton = assertDefined(document.querySelector<HTMLParagraphElement>("#save"));
   saveButton.addEventListener("click", () => {
-    console.log("sending data to server");
     sendSaveDataToServer();
   })
 }

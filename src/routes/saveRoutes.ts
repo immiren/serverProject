@@ -69,5 +69,5 @@ saveRouter.put("/update/:playerName/:saveName", (req, res) => {
 export default saveRouter;
 
 // test curls
-// curl http://localhost:9000/saves/login/immiihh
-// curl http://localhost:9000/saves/load/immiihh/save1
+// curl http://localhost:9000/saves/login/testUser
+// curl http://localhost:9000/saves/load/testUser/save1

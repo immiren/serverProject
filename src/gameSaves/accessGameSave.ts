@@ -44,9 +44,10 @@ export function updateGameSave(
   const fileContents = JSON.stringify(saveContents);
 
   // No save file warning - can be deleted later
-  if (!fs.existsSync(saveFile)) {
+  if (!fs.existsSync(saveFile) || !fs.existsSync(fullDir)) {
     // Warning
     console.log("No save file found. Creating new one with name " + saveName);
+    fs.mkdirSync(fullDir, { recursive: true });
   }
 
   // File writing - overwrites or creates new file

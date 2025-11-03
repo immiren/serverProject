@@ -7,7 +7,7 @@ const port = 9000;
 
 app.use(express.json());
 
-
+// TODO: combine routes
 app.use("/", gameRouter);
 
 app.use("/saves", saveRouter);
